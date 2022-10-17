@@ -12,7 +12,9 @@ Create IGW.
 ### Step 4
 Create 2 public subnets and 2 private subnets. Each set will be in different AZ's.   
 EKS parameter needed for public subnet(map_public_ip_on_launch) 
-Both public and private need (tags/kubernetes.io/role & cluster).
+Both public and private need (tags/kubernetes.io/cluster/eks).
+Public needs (tags/kubernetes.io/role/elb).
+Private needs (tags/kubernetes.io/role/internal-elb).
 
 ### Step 5 
 Create aws_eip. These elastic IP's will connect to internet. 
