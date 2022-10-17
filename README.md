@@ -57,5 +57,6 @@ Create simple app with YAML file that utilizes nginx.
 - Create External Load Balancer next with similar steps above
 - If it all works, you should be able to see the NGINX site with the external LB's External-IP
 
--- TROUBLESHOOTING YAML LB's 
-- Make sure subnet tags have the required information so LB's can find them
+-- TROUBLESHOOTING
+- (.tf vs .tfvars) For variable files, to normally declare use `.tf` extension. If you would like to overwrite some of the varables, use `terraform apply -var-file="<FILE>.tfvars" `. The `.tfvars` extension can not declare new variables, only rewrite existing.
+- (YAML LB's) Make sure subnet tags have the required information so LB's can find them
