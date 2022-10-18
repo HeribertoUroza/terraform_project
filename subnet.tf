@@ -4,7 +4,7 @@
 resource "aws_subnet" "terra_sub_public_1" {
   # Required vpc_id & cidr_block 
   vpc_id     = aws_vpc.terra_vpc.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "10.0.0.0/19"
 
   # Specifying AZ
   availability_zone = "us-east-1a"
@@ -16,16 +16,16 @@ resource "aws_subnet" "terra_sub_public_1" {
   # Link: https://aws.amazon.com/premiumsupport/knowledge-center/eks-vpc-subnet-discovery/
 
   tags = {
-    Name                        = "terra_sub_public_1"
-    "kubernetes.io/cluster/eks" = "shared"
-    "kubernetes.io/role/elb"    = 1
+    Name                                    = "terra_sub_public_1"
+    "kubernetes.io/cluster/aws_eks_cluster" = "shared"
+    "kubernetes.io/role/elb"                = 1
   }
 }
 
 resource "aws_subnet" "terra_sub_public_2" {
   # Required vpc_id & cidr_block 
   vpc_id     = aws_vpc.terra_vpc.id
-  cidr_block = "10.0.2.0/24"
+  cidr_block = "10.0.32.0/19"
 
   # Specifying AZ
   availability_zone = "us-east-1b"
@@ -37,16 +37,16 @@ resource "aws_subnet" "terra_sub_public_2" {
   # Link: https://aws.amazon.com/premiumsupport/knowledge-center/eks-vpc-subnet-discovery/
 
   tags = {
-    Name                        = "terra_sub_public_2"
-    "kubernetes.io/cluster/eks" = "shared"
-    "kubernetes.io/role/elb"    = 1
+    Name                                    = "terra_sub_public_2"
+    "kubernetes.io/cluster/aws_eks_cluster" = "shared"
+    "kubernetes.io/role/elb"                = 1
   }
 }
 
 resource "aws_subnet" "terra_sub_private_1" {
   # Required vpc_id & cidr_block 
   vpc_id     = aws_vpc.terra_vpc.id
-  cidr_block = "10.0.3.0/24"
+  cidr_block = "10.0.64.0/19"
 
   # Specifying AZ
   availability_zone = "us-east-1a"
@@ -56,16 +56,16 @@ resource "aws_subnet" "terra_sub_private_1" {
   # Link: https://aws.amazon.com/premiumsupport/knowledge-center/eks-vpc-subnet-discovery/
 
   tags = {
-    Name                              = "terra_sub_private_1"
-    "kubernetes.io/cluster/eks"       = "shared"
-    "kubernetes.io/role/internal-elb" = 1
+    Name                                    = "terra_sub_private_1"
+    "kubernetes.io/cluster/aws_eks_cluster" = "shared"
+    "kubernetes.io/role/internal-elb"       = 1
   }
 }
 
 resource "aws_subnet" "terra_sub_private_2" {
   # Required vpc_id & cidr_block 
   vpc_id     = aws_vpc.terra_vpc.id
-  cidr_block = "10.0.4.0/24"
+  cidr_block = "10.0.96.0/19"
 
   # Specifying AZ
   availability_zone = "us-east-1b"
@@ -75,8 +75,8 @@ resource "aws_subnet" "terra_sub_private_2" {
   # Link: https://aws.amazon.com/premiumsupport/knowledge-center/eks-vpc-subnet-discovery/
 
   tags = {
-    Name                              = "terra_sub_private_2"
-    "kubernetes.io/cluster/eks"       = "shared"
-    "kubernetes.io/role/internal-elb" = 1
+    Name                                    = "terra_sub_private_2"
+    "kubernetes.io/cluster/aws_eks_cluster" = "shared"
+    "kubernetes.io/role/internal-elb"       = 1
   }
 }

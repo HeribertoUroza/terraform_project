@@ -6,9 +6,9 @@ resource "aws_route_table" "public_terra_RT" {
   vpc_id = aws_vpc.terra_vpc.id
 
   route {
-      # CIDR of the route. all IPv4 addresses on the local machine
+    # CIDR of the route. all IPv4 addresses on the local machine
     cidr_block = "0.0.0.0/0"
-        # Specify IGW
+    # Specify IGW
     gateway_id = aws_internet_gateway.terra_igw.id
   }
 
@@ -22,10 +22,10 @@ resource "aws_route_table" "private_terra_RT_1" {
   vpc_id = aws_vpc.terra_vpc.id
 
   route {
-      # CIDR of the route. all IPv4 addresses on the local machine
+    # CIDR of the route. all IPv4 addresses on the local machine
     cidr_block = "0.0.0.0/0"
-        # Specify NAT GATWAY
-    gateway_id = aws_nat_gateway.nat_gw_1.id
+    # Specify NAT GATWAY
+    nat_gateway_id = aws_nat_gateway.nat_gw_1.id
   }
 
   tags = {
@@ -38,10 +38,10 @@ resource "aws_route_table" "private_terra_RT_2" {
   vpc_id = aws_vpc.terra_vpc.id
 
   route {
-      # CIDR of the route. all IPv4 addresses on the local machine
+    # CIDR of the route. all IPv4 addresses on the local machine
     cidr_block = "0.0.0.0/0"
-        # Specify NAT GATWAY
-    gateway_id = aws_nat_gateway.nat_gw_2.id
+    # Specify NAT GATWAY
+    nat_gateway_id = aws_nat_gateway.nat_gw_2.id
   }
 
   tags = {
@@ -50,6 +50,8 @@ resource "aws_route_table" "private_terra_RT_2" {
 }
 
 #--- ROUTE TABLE ASSOCIATION
+# Resource aws_route_table_association
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
 
 resource "aws_route_table_association" "public_terra_RTA1" {
   subnet_id      = aws_subnet.terra_sub_public_1.id
@@ -63,10 +65,10 @@ resource "aws_route_table_association" "public_terra_RTA2" {
 
 resource "aws_route_table_association" "private_terra_RT_1" {
   subnet_id      = aws_subnet.terra_sub_private_1.id
-  route_table_id = aws_route_table.public_terra_RT.id
+  route_table_id = aws_route_table.private_terra_RT_1.id
 }
 
 resource "aws_route_table_association" "private_terra_RT_2" {
   subnet_id      = aws_subnet.terra_sub_private_2.id
-  route_table_id = aws_route_table.public_terra_RT.id
+  route_table_id = aws_route_table.private_terra_RT_2.id
 }
