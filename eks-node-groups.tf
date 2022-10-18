@@ -98,7 +98,7 @@ resource "aws_eks_node_group" "EKS_nodes" {
   force_update_version = false
 
   # (Optional) List of instance types associated with the EKS Node Group. Defaults to ["t3.medium"].
-  instance_types = ["t2.micro"] # Smaller cheaper option
+  instance_types = ["t3.small"] # Smaller cheaper option
 
   # (Optional) Key-value map of Kubernetes labels. Only labels that are applied with the EKS API are managed by this argument.
   labels = {
