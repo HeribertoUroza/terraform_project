@@ -17,7 +17,7 @@ Public needs (tags/kubernetes.io/role/elb).
 Private needs (tags/kubernetes.io/role/internal-elb).
 
 ### Step 5 
-Create aws_eip. These elastic IP's will connect to internet. 
+Create Elastic IP address resource. These elastic IP's will connect to internet throught NAT gateways. 
 
 ### Step 6 
 Create 2 NAT gateways and place with public subnets. 
@@ -43,10 +43,14 @@ Create IAM role needed with eks policy. Next attach policy to eks cluster name
  - Configure VPC parameters and Subnet ID's need to be declared
 
 ### Step 11 
-Create IAM role for EKS node groups. Create Instant Groups/EKS node groups. 3 Policies needed and need to be attached. Create actual instance groups
+- Create IAM role for EKS node groups. 
+- Attach IAM policies to roles. 3 Policies needed and need to be attached. 
+Create Instant Groups/EKS node groups. 
+
+Create actual instance groups
 
 ### Step 12 
-Connect to the cluster with `awk eks --region us-east-1 update-kubeconfig --name eks --profile terraform` .I dont have a profile set up with aws cli, will attempt with terraform file first
+Connect to the cluster with `aws eks --region us-east-1 update-kubeconfig --name <NAME_OF_CLUTSER> --profile <NAME_OF_PROFILE>` .I dont have a profile set up with aws cli, will attempt with terraform file first. I was unable to figure it out. Created a profile with `aws configure --profile terraform` to connect to cluster.
 - To test successful conneciton `kubectl get svc`
 
 ### Step 13
@@ -62,3 +66,8 @@ Create simple app with YAML file that utilizes nginx.
 -- TROUBLESHOOTING
 - (.tf vs .tfvars) For variable files, to normally declare use `.tf` extension. If you would like to overwrite some of the varables, use `terraform apply -var-file="<FILE>.tfvars" `. The `.tfvars` extension can not declare new variables, only rewrite existing.
 - (YAML LB's) Make sure subnet tags have the required information so LB's can find them
+- Recieved the below error. At first suspected a typo in the subnet resource creation. Actual issue was a wrong attribute in the route table & route table association was pointing at wrong subnet </br>
+`Error: error waiting for EKS Node Group (aws_eks_cluster:EKS_nodes) to create: unexpected state 'CREATE_FAILED', wanted target 'ACTIVE'. last error: 1 error occurred:
+│       * subnet-0f83213b797278eeb, subnet-02f2ee962cdb9bef0: Ec2SubnetInvalidConfiguration: One or more Amazon EC2 Subnets of [subnet-0f83213b797278eeb, subnet-02f2ee962cdb9bef0] for node group EKS_nodes does not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable auto-assign public IP address for the subnet. See IP addressing in VPC guide: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip`
+- For ELB, I recieved a `<PENDING>` error. Subnets needed aws_eks name inside of resource, not the one when its declared.
+- Ran into issue where nginx site was not displaying and there was no error with the load balencers. I could find any error message from the NGINX side or the EKS side. Finally found that the instance node size was too small. Used t2.micro thinking it would be fine but t3.small was needed as the node.
